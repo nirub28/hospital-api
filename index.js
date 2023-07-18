@@ -19,7 +19,7 @@ app.use(express.static("./assets")); // to use asset folders
 // app.set("views", "./views");
 
 // to use routes
-// app.use("/", require("./routes"));
+app.use("/", require("./routes"));
 
 app.listen(port, function (err) {
   if (err) {
