@@ -1,5 +1,7 @@
 const Patient = require('../models/Patient');
 const Reports = require('../models/Reports');
+const Doctor = require('../models/Doctor');
+
 
 module.exports.register = async function (req, res) {
   try {
@@ -51,7 +53,16 @@ module.exports.getAllReports = async function (req, res) {
     const { id } = req.params;
 
     // Find the patient by ID
-    let patient = await Patient.findById(id).populate('reports').exec();
+    let patient = await Patient.findById(id).populate('reports')
+    .populate({
+      path: 'reports',
+      options: { sort: { date: 1 } },
+      populate: [
+        { path: 'createdByDoctor', select: 'name', model: Doctor },
+        { path: 'patient', select: 'name phone', model: Patient },
+      ],
+    })
+    .exec();
 
     if (!patient) {
       return res.json({ message: "Patient not found" });
