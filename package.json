@@ -1,0 +1,15 @@
+{
+  "name": "hospital-api",
+  "version": "1.0.0",
+  "description": "hopita api for patient data hold",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Niranjan P B",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
