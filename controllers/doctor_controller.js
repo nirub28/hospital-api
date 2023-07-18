@@ -32,7 +32,7 @@ module.exports.login = async function (req, res) {
       return res.json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ email: doctor.email, _id: doctor._id }, 'mY$3cr3tK3y!#@123');
+    const token = jwt.sign({ email: doctor.email, _id: doctor._id }, 'niranjan');
     // for expied token - const token = jwt.sign({ email: doctor.email, _id: doctor._id }, 'mY$3cr3tK3y!#@123', { expiresIn: '1h' });
     return res.json({ message: "Login successful", token: token });
   } catch (err) {
