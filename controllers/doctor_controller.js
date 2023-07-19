@@ -40,7 +40,7 @@ module.exports.login = async function (req, res) {
     );
 
     // for expied token - token = jwt.sign({ object }, 'niranjan', { expiresIn: '1h' });
-    return res.json({ message: "Login successful", token: token });
+    return res.json({ message: "Login successful", doctorId: doctor._id , token: token });
   } catch (err) {
     return res.json({ message: "Error in finding email" });
   }
