@@ -5,8 +5,8 @@ const authenticate = require('../config/Authenticate');
 
 
 
-router.post("/register", patientController.register);
-router.post("/create_report/:id", patientController.createReport);
+router.post("/register", authenticate , patientController.register);
+router.post("/create_report/:id", authenticate, patientController.createReport);
 router.get("/all_reports/:id", authenticate, patientController.getAllReports);
 
 
