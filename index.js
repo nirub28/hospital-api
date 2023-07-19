@@ -1,13 +1,12 @@
 const express = require("express");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser"); // to parse data from postman
 
 const app = express();
 const port = 8000;
-const db = require('./config/mongoose');
+const db = require("./config/mongoose");
 
 // Use the body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 // to use routes
 app.use("/", require("./routes"));

@@ -1,9 +1,10 @@
 const Doctor = require("../models/Doctor");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
+// create a doctor profile
 module.exports.create = async function (req, res) {
-
   if (req.body.password !== req.body.confirm_password) {
+    // if password mismatch
     return res.json({ message: "Password mismatch" });
   }
 
@@ -21,7 +22,7 @@ module.exports.create = async function (req, res) {
   }
 };
 
-// To create JWT token
+// When doctor log in,create JWT token
 module.exports.login = async function (req, res) {
   const { email, password } = req.body;
 
@@ -29,11 +30,16 @@ module.exports.login = async function (req, res) {
     const doctor = await Doctor.findOne({ email: email }).exec();
 
     if (!doctor || doctor.password !== password) {
+      // if password mismatch
       return res.json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ email: doctor.email, _id: doctor._id }, 'niranjan');
-    // for expied token - const token = jwt.sign({ email: doctor.email, _id: doctor._id }, 'mY$3cr3tK3y!#@123', { expiresIn: '1h' });
+    const token = jwt.sign(          // create a token
+      { email: doctor.email, _id: doctor._id },
+      "niranjan"
+    );
+
+    // for expied token - token = jwt.sign({ object }, 'niranjan', { expiresIn: '1h' });
     return res.json({ message: "Login successful", token: token });
   } catch (err) {
     return res.json({ message: "Error in finding email" });

@@ -1,8 +1,8 @@
-const Patient = require('../models/Patient');
-const Reports = require('../models/Reports');
-const Doctor = require('../models/Doctor');
+const Patient = require("../models/Patient");
+const Reports = require("../models/Reports");
+const Doctor = require("../models/Doctor");
 
-
+//Register new Patient
 module.exports.register = async function (req, res) {
   try {
     const { phone, name } = req.body;
@@ -12,19 +12,25 @@ module.exports.register = async function (req, res) {
 
     if (patient) {
       // Patient already exists, return patient info
-      return res.json({ message: "Patient already registered", patient: patient });
+      return res.json({
+        message: "Patient already registered",
+        patient: patient,
+      });
     }
 
     // Create a new patient
     patient = await Patient.create({ phone: phone, name: name });
 
-    return res.json({ message: "Patient registered successfully", patient: patient });
+    return res.json({
+      message: "Patient registered successfully",
+      patient: patient,
+    });
   } catch (err) {
     return res.json({ message: "Error in registering patient", error: err });
   }
 };
 
-
+// create a new report
 module.exports.createReport = async function (req, res) {
   try {
     const { id } = req.params;
@@ -38,7 +44,11 @@ module.exports.createReport = async function (req, res) {
     }
 
     // Create a new report for the patient
-    const report = await Reports.create({ createdByDoctor: createdByDoctor, status: status, patient: patient._id  });
+    const report = await Reports.create({
+      createdByDoctor: createdByDoctor,
+      status: status,
+      patient: patient._id,
+    });
     patient.reports.push(report);
     await patient.save();
 
@@ -48,21 +58,23 @@ module.exports.createReport = async function (req, res) {
   }
 };
 
+// get all reports of a patient
 module.exports.getAllReports = async function (req, res) {
   try {
     const { id } = req.params;
 
     // Find the patient by ID
-    let patient = await Patient.findById(id).populate('reports')
-    .populate({
-      path: 'reports',
-      options: { sort: { date: 1 } },
-      populate: [
-        { path: 'createdByDoctor', select: 'name', model: Doctor },
-        { path: 'patient', select: 'name phone', model: Patient },
-      ],
-    })
-    .exec();
+    let patient = await Patient.findById(id)
+      .populate("reports")
+      .populate({
+        path: "reports",
+        options: { sort: { date: 1 } },
+        populate: [
+          { path: "createdByDoctor", select: "name", model: Doctor },
+          { path: "patient", select: "name phone", model: Patient },
+        ],
+      })
+      .exec();
 
     if (!patient) {
       return res.json({ message: "Patient not found" });
