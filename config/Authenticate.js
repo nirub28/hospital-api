@@ -9,7 +9,6 @@ function authenticate(req, res, next) {
   }
 
   try {
-    console.log('test1');
     const decoded = jwt.verify(token.replace('Bearer ', ''), 'niranjan');
     req.user = decoded; // Set the user object in the request for further use
     next();
